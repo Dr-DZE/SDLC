@@ -1,0 +1,577 @@
+:root {
+    --primary-color: #c8832a;
+    --primary-color-rgb: 200, 131, 42;
+    --primary-hover-color: #5d2195;
+    --primary-hover-color-rgb: 93, 33, 149;
+
+    --text-color: #f8f9fa;
+    --text-color-rgb: 248, 249, 250;
+    --text-color-dark: #343a40;
+    --text-color-dark-rgb: 52, 58, 64;
+
+    --border-color: rgba(255, 255, 255, 0.2);
+    --border-color-rgb: 255, 255, 255;
+
+    --shadow-color: rgba(0, 0, 0, 0.5);
+    --shadow-color-rgb: 0, 0, 0;
+
+    --main-bg: rgba(0, 0, 0, 0.6);
+    --main-bg-rgb: 0, 0, 0;
+
+    --sidebar-bg: rgba(0, 0, 0, 0.7);
+    --sidebar-bg-rgb: 0, 0, 0;
+
+    --white-color: white;
+    --white-color-rgb: 255, 255, 255;
+
+    --light-grey-color: #aaa;
+    --light-grey-color-rgb: 170, 170, 170;
+
+    --green-color: #28a745;
+    --green-color-rgb: 40, 167, 69;
+
+    --blue-color: #4273a7;
+    --blue-color-rgb: 0, 123, 255;
+
+    --red-color: #d04242;
+    --red-color-rgb: 220, 53, 69;
+
+    --lightblue-color: #add8e6;
+    --lightblue-color-rgb: 173, 216, 230;
+
+    --lightgreen-color: #90ee90;
+    --lightgreen-color-rgb: 144, 238, 144;
+
+    --lightcoral-color: #f08080;
+    --lightcoral-color-rgb: 240, 128, 128;
+
+    --lightpurple-color: #e0b0ff;
+    --lightpurple-color-rgb: 224, 176, 255;
+    --dark-grey-rgb: 40, 40, 40;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    margin: 0;
+    background-color: black;
+    background-image: url('/resource/Bl4_logo.gif');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: var(--text-color);
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.sidebar {
+    width: 350px;
+    flex-shrink: 0;
+    background-color: var(--sidebar-bg);
+    backdrop-filter: blur(10px);
+    padding: 20px;
+    border-left: 1px solid var(--border-color);
+    overflow-y: auto;
+}
+
+h1 {
+    text-shadow: 2px 2px 4px var(--shadow-color);
+}
+
+.todo-form {
+    background-color: var(--main-bg);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px var(--shadow-color);
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    border: 1px solid var(--border-color);
+}
+
+.todo-form input,
+.todo-form textarea,
+.todo-form select {
+    background-color: rgba(var(--white-color-rgb), 0.1);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 1rem;
+}
+
+.todo-form select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23f8f9fa%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.6-3.6%205.4-7.9%205.4-12.9%200-5-1.8-9.2-5.4-12.7z%22%2F%3E%3C%2Fsvg%3E');
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+    background-size: 0.65em auto;
+    padding-right: 2.5rem;
+}
+
+/* Note: Styling <option> elements is not consistently supported across browsers. */
+/* This may not appear as expected on all systems. */
+.todo-form select option {
+    background: rgba(var(--dark-grey-rgb), 1);
+    color: var(--text-color);
+}
+
+.todo-form input::placeholder,
+.todo-form textarea::placeholder {
+    color: rgba(var(--white-color-rgb), 0.7);
+}
+
+.todo-form button {
+    padding: 12px 15px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.todo-form button:hover {
+    background-color: var(--primary-hover-color);
+}
+
+#todo-list-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.todo-item {
+    background: rgba(var(--white-color-rgb), 0.1);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.todo-item:hover {
+    background: rgba(var(--white-color-rgb), 0.2);
+}
+
+.todo-header {
+    padding: 15px;
+    font-weight: bold;
+}
+
+.todo-body {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 15px;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+    color: var(--text-color-dark);
+    background-color: rgba(var(--white-color-rgb), 0.9);
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+}
+
+.todo-item.expanded .todo-body {
+    max-height: 500px;
+    padding: 15px;
+}
+
+.todo-item.completed .todo-title {
+    text-decoration: line-through;
+    color: var(--light-grey-color);
+}
+
+.completed-track {
+    text-decoration: line-through;
+    color: var(--light-grey-color);
+}
+
+.completed-project {
+    text-decoration: line-through;
+    color: var(--light-grey-color);
+}
+
+.todo-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.todo-actions button {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: none;
+    color: var(--white-color);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.todo-actions form:first-of-type button {
+    background-color: var(--green-color);
+}
+
+.todo-item.difficulty-easy {
+    background-color: rgba(var(--green-color-rgb), 0.7);
+}
+
+.todo-item.difficulty-medium {
+    background-color: rgba(var(--blue-color-rgb), 0.7);
+}
+
+.todo-item.difficulty-hard {
+    background-color: rgba(var(--red-color-rgb), 0.7);
+}
+
+.delete-btn {
+    background-color: var(--red-color);
+}
+
+.todo-actions button:hover {
+    opacity: 0.8;
+}
+
+.filter-container {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    text-decoration: none;
+    transition: background-color 0.2s;
+}
+
+.filter-btn:hover {
+    background-color: rgba(var(--white-color-rgb), 0.1);
+}
+
+/* Difficulty-based coloring for filter buttons */
+.filter-btn.filter-easy {
+    background-color: var(--green-color);
+    border-color: var(--green-color);
+}
+
+.filter-btn.filter-medium {
+    background-color: var(--blue-color);
+    border-color: var(--blue-color);
+}
+
+.filter-btn.filter-hard {
+    background-color: var(--red-color);
+    border-color: var(--red-color);
+}
+
+.filter-btn.filter-all {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.filter-btn.filter-easy:hover,
+.filter-btn.filter-medium:hover,
+.filter-btn.filter-hard:hover {
+    opacity: 0.8;
+}
+
+.btn-blue {
+    background-color: var(--blue-color);
+    border-color: var(--blue-color);
+}
+
+.btn-green {
+    background-color: var(--green-color);
+    border-color: var(--green-color);
+}
+
+.plus-btn {
+    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    line-height: 50px;
+    flex-shrink: 0;
+}
+
+.plus-btn:hover {
+    background-color: var(--primary-hover-color);
+}
+
+.modal-container {
+    display: none;
+    /* Hidden by default */
+    position: absolute;
+    top: 80px;
+    left: 20px;
+    z-index: 100;
+}
+
+.modal-container.visible {
+    display: block;
+}
+
+.switch-page-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    z-index: 100;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    text-decoration: none;
+    box-shadow: 0 4px 12px var(--shadow-color);
+    transition: background-color 0.2s;
+}
+
+.switch-page-btn:hover {
+    background-color: var(--primary-hover-color);
+}
+
+.mode-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 101;
+}
+
+    display: block;
+    text-align: center;
+    padding: 10px 15px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border-radius: 8px;
+    text-decoration: none;
+    box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.switch-mode-btn:hover {
+    background-color: var(--primary-hover-color);
+}
+
+/* Project Page Styles */
+.project-page-body {
+    padding: 20px;
+}
+
+.project-actions {
+    padding: 20px;
+}
+
+.project-header,
+.track-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+}
+
+.project-header h1,
+.track-header h2 {
+    margin: 0;
+}
+
+.header-buttons {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.small-delete-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 1rem;
+    line-height: 30px;
+    padding: 0;
+    border-radius: 50%;
+}
+
+.project-container {
+    margin-bottom: 40px;
+}
+
+.project-container h1 {
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+.tracks-container {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    width: 100%;
+}
+
+.task-track {
+    flex: 1;
+    max-width: 400px;
+    background-color: var(--sidebar-bg);
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+}
+
+.task-track h2 {
+    text-align: center;
+    margin-top: 0;
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 0;
+}
+
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.todo-item.locked {
+    opacity: 0.5;
+    pointer-events: none;
+    /* Disables mouse clicks */
+}
+
+.todo-item.locked .todo-header {
+    cursor: not-allowed;
+}
+
+/* --- Track Themes --- */
+
+/* --- Theme: Blue --- */
+.task-track.theme-blue {
+    border-color: var(--blue-color);
+}
+
+.task-track.theme-blue .todo-item {
+    background-color: rgba(var(--blue-color-rgb), 0.3);
+    border-color: rgba(var(--blue-color-rgb), 0.6);
+}
+
+.task-track.theme-blue .todo-body {
+    background-color: var(--lightblue-color);
+}
+
+/* --- Theme: Green --- */
+.task-track.theme-green {
+    border-color: var(--green-color);
+}
+
+.task-track.theme-green .todo-item {
+    background-color: rgba(var(--green-color-rgb), 0.3);
+    border-color: rgba(var(--green-color-rgb), 0.6);
+}
+
+.task-track.theme-green .todo-body {
+    background-color: var(--lightgreen-color);
+}
+
+/* --- Theme: Red --- */
+.task-track.theme-red {
+    border-color: var(--red-color);
+}
+
+.task-track.theme-red .todo-item {
+    background-color: rgba(var(--red-color-rgb), 0.3);
+    border-color: rgba(var(--red-color-rgb), 0.6);
+}
+
+.task-track.theme-red .todo-body {
+    background-color: var(--lightcoral-color);
+}
+
+/* --- Theme: Purple --- */
+.task-track.theme-purple {
+    border-color: var(--primary-color);
+}
+
+.task-track.theme-purple .todo-item {
+    background-color: rgba(var(--primary-color-rgb), 0.3);
+    border-color: rgba(var(--primary-color-rgb), 0.6);
+}
+
+.task-track.theme-purple .todo-body {
+    background-color: var(--lightpurple-color);
+}
+
+/* --- Mode Visibility --- */
+.user-mode .plus-btn,
+.user-mode .project-actions,
+.user-mode .project-header .delete-btn,
+.user-mode .track-header .delete-btn {
+    display: none;
+}
+
+.project-tabs ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    /* Make it a flex container */
+    justify-content: flex-start;
+    /* Align items to the start */
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.project-tabs li {
+    margin-right: 10px;
+    /* Space between tabs */
+}
+
+.project-tabs a {
+    display: block;
+    padding: 10px 15px;
+    text-decoration: none;
+    color: var(--text-color);
+    background-color: var(--main-bg);
+    border: 1px solid var(--border-color);
+    border-bottom: none;
+    /* Remove bottom border for tab effect */
+    border-radius: 8px 8px 0 0;
+    /* Rounded top corners */
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.project-tabs a:hover {
+    background-color: rgba(var(--white-color-rgb), 0.2);
+}
+
+.project-tabs li.active a {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    border-color: var(--primary-color);
+}

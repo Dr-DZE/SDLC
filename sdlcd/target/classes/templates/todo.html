@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Todo List</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+
+    <div class="top-bar">
+    </div>
+
+
+
+<div class="container">
+    <div class="main-content">
+        <button id="add-task-btn" class="plus-btn">+</button>
+        <div id="add-task-modal" class="modal-container">
+            <form action="/add" method="post" class="todo-form" data-ajax-form="true" data-success-callback="addTaskSuccess">
+                <input type="text" name="title" placeholder="Short Name" required/>
+                <textarea name="details" placeholder="Main Title / Details" rows="4"></textarea>
+                <select name="difficulty" required>
+                    <option value="" disabled selected>Select difficulty</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+                <input type="date" name="dueDate" placeholder="Due Date">
+
+                <button type="submit" class="btn-blue">Add Task</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="sidebar">
+        <div class="filter-container">
+            <a href="/" class="filter-btn filter-all">All</a>
+            <a href="/?difficulty=Easy" class="filter-btn filter-easy">Easy</a>
+            <a href="/?difficulty=Medium" class="filter-btn filter-medium">Medium</a>
+            <a href="/?difficulty=Hard" class="filter-btn filter-hard">Hard</a>
+        </div>
+        <div id="todo-list-container">
+            <!-- Tasks will be rendered here -->
+            <div th:each="todo : ${todos}" class="todo-item" th:classappend="${todo.completed ? 'completed' : ''} + ' ' + 'difficulty-' + ${todo.difficulty.toLowerCase()}" th:data-id="${todo.id}">
+                <div class="todo-header">
+                    <span class="todo-title" th:text="${todo.title}"></span>
+                </div>
+                <div class="todo-body">
+                    <p th:text="${todo.details}"></p>
+                    <div>
+                        <strong>Difficulty:</strong> <span th:text="${todo.difficulty}"></span>
+                    </div>
+                    <div th:if="${todo.dueDate}">
+                        <strong>Due Date:</strong> <span th:text="${#temporals.format(todo.dueDate, 'dd-MM-yyyy')}"></span>
+                    </div>
+                    <div class="todo-actions">
+                        <form>
+                            <button type="button" class="btn-green toggle-todo-btn" th:data-todo-id="${todo.id}">Toggle</button>
+                        </form>
+                        <form th:action="@{/delete/{id}(id=${todo.id})}" method="post">
+                            <button type="submit" class="delete-btn">Delete</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<a href="/new-page" class="switch-page-btn">Switch</a>
+<a href="/new-page" class="switch-page-btn">Switch</a>
+<script src="/js/script.js"></script>
+
+</body>
+</html>

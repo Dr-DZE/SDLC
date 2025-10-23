@@ -1,0 +1,12 @@
+2025-10-08 13:47:35.945262+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "TODO_ITEM" не найдена
+Table "TODO_ITEM" not found; SQL statement:
+select ti1_0.id,ti1_0.completed,ti1_0.title from todo_item ti1_0 [42102-232]
+2025-10-08 14:31:52.429572+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "TODO_ITEM" не найдена
+Table "TODO_ITEM" not found; SQL statement:
+select ti1_0.id,ti1_0.completed,ti1_0.title from todo_item ti1_0 [42102-232]
+2025-10-08 14:32:15.870383+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "TODO_ITEM" не найдена
+Table "TODO_ITEM" not found; SQL statement:
+select ti1_0.id,ti1_0.completed,ti1_0.title from todo_item ti1_0 [42102-232]

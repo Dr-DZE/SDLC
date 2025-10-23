@@ -1,0 +1,5 @@
+sdlc\sdlcd\model\TodoItem.class
+sdlc\sdlcd\repository\TodoRepository.class
+sdlc\sdlcd\SdlcdApplication.class
+sdlc\sdlcd\controller\TodoController.class
+sdlc\sdlcd\repository\TodoRepositoryImpl.class

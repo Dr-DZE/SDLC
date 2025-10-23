@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Super Mode</title>
+    <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+
+<body class="project-page-body" th:classappend="${mode == 'dev' ? 'dev-mode' : 'user-mode'}">
+    <div class="top-bar">
+    </div>
+    <a href="/" class="switch-page-btn">Back</a>
+    <div class="mode-switcher">
+        <a th:if="${mode == 'user'}" href="/new-page?mode=dev" class="switch-mode-btn">Dev Mode</a>
+        <a th:if="${mode == 'dev'}" href="/new-page" class="switch-mode-btn">User Mode</a>
+    </div>
+
+    <div class="project-tabs">
+        <ul>
+            <li th:each="project : ${allProjects}" th:classappend="${selectedProject != null and selectedProject.id == project.id ? 'active' : ''}">
+                <a th:href="@{/new-page(mode=${mode}, projectId=${project.id})}" th:text="${project.name}"></a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="project-actions" th:if="${mode == 'dev'}">
+        <button id="add-project-btn" class="plus-btn">+</button>
+    </div>
+
+    <div id="add-project-modal" class="modal-container">
+        <form action="/project/create" method="post" class="todo-form" data-ajax-form="true" data-success-callback="addProjectSuccess">
+            <span class="close-button">&times;</span>
+            <h2>Create New Project</h2>
+            <input type="text" name="name" placeholder="Project Name" required />
+            <select name="colorTheme" required>
+                <option value="" disabled selected>Select Theme</option>
+                <option value="blue">Blue</option>
+                <option value="green">Green</option>
+                <option value="red">Red</option>
+            </select>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+
+    <div th:if="${selectedProject != null}" class="project-container" th:classappend="'theme-' + ${selectedProject.colorTheme}">
+        <div class="project-header">
+            <h1 th:text="${selectedProject.name}" th:classappend="${selectedProject.complete ? 'completed-project' : ''}"></h1>
+            <div class="header-buttons">
+                <button class="add-branch-btn plus-btn" th:attr="data-project-id=${selectedProject.id}"
+                    th:if="${mode == 'dev'}">+</button>
+                <form th:action="@{/project/delete/{id}(id=${selectedProject.id})}" method="post" th:if="${mode == 'dev'}">
+                    <input type="hidden" name="mode" th:value="${mode}" />
+                    <button type="submit" class="delete-btn small-delete-btn">X</button>
+                </form>
+            </div>
+        </div>
+
+        <div th:id="'add-branch-modal-' + ${selectedProject.id}" class="modal-container">
+            <form th:action="@{/project/{id}/track/create(id=${selectedProject.id})}" method="post" class="todo-form" data-ajax-form="true" data-success-callback="addBranchSuccess">
+                <span class="close-button">&times;</span>
+                <h2>Add New Branch</h2>
+                <input type="text" name="name" placeholder="Branch Name" required />
+                <select name="colorTheme" required>
+                    <option value="" disabled selected>Select Theme</option>
+                    <option value="blue">Blue</option>
+                    <option value="green">Green</option>
+                    <option value="red">Red</option>
+                    <option value="purple">Purple</option>
+                </select>
+                <button type="submit">Create Branch</button>
+            </form>
+        </div>
+
+        <div class="tracks-container">
+            <div th:each="track : ${selectedProject.tracks}" class="task-track" th:classappend="'theme-' + ${track.colorTheme}">
+                <div class="track-header">
+                    <h2 th:text="${track.name}" th:classappend="${track.complete ? 'completed-track' : ''}"></h2>
+                    <div class="header-buttons">
+                        <button class="add-task-to-track-btn plus-btn" th:attr="data-track-id=${track.id}"
+                            th:if="${mode == 'dev'}">+</button>
+                        <form th:action="@{/track/delete/{id}(id=${track.id})}" method="post" th:if="${mode == 'dev'}">
+                            <input type="hidden" name="mode" th:value="${mode}" />
+                            <button type="submit" class="delete-btn small-delete-btn">X</button>
+                        </form>
+                    </div>
+                </div>
+
+                <div th:id="'add-task-modal-' + ${track.id}" class="modal-container">
+                    <form th:action="@{/track/{id}/task/create(id=${track.id})}" method="post" class="todo-form" data-ajax-form="true" data-success-callback="addTaskToTrackSuccess">
+                        <span class="close-button">&times;</span>
+                        <h2>Add New Task</h2>
+                        <input type="text" name="title" placeholder="Task Title" required />
+                        <textarea name="details" placeholder="Details" rows="3"></textarea>
+                        <select name="difficulty" required>
+                            <option value="" disabled selected>Select difficulty</option>
+                            <option value="Easy">Easy</option>
+                            <option value="Medium">Medium</option>
+                            <option value="Hard">Hard</option>
+                        </select>
+                        <button type="submit">Add Task</button>
+                    </form>
+                </div>
+
+                <div class="task-list">
+                    <div th:each="task, iterStat : ${track.tasks}" class="todo-item"
+                        th:classappend="${task.completed ? 'completed' : ''} + ' ' + (${iterStat.index > 0 && !track.tasks.get(iterStat.index - 1).isCompleted()} ? 'locked' : '')">
+                        <div class="todo-header">
+                            <span class="todo-title" th:text="${task.title}"></span>
+                        </div>
+                        <div class="todo-body">
+                            <p th:text="${task.details}"></p>
+                            <div class="todo-actions">
+                                <th:block
+                                    th:if="${iterStat.index == 0 || track.tasks.get(iterStat.index - 1).isCompleted()}">
+                                    <form th:action="@{/project/task/update/{id}(id=${task.id})}" method="post">
+                                        <input type="hidden" name="mode" th:value="${mode}" />
+                                        <button type="submit">Toggle</button>
+                                    </form>
+                                </th:block>
+                                <form th:action="@{/task/delete/{id}(id=${task.id})}" method="post"
+                                    th:if="${mode == 'dev'}">
+                                    <input type="hidden" name="mode" th:value="${mode}" />
+                                    <button type="submit" class="delete-btn">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:if="${selectedProject == null and mode == 'user'}" class="no-project-selected">
+        <p>Please select a project from the dropdown above.</p>
+    </div>
+    <div th:if="${selectedProject == null and mode == 'dev'}" class="no-project-selected">
+        <p>No project selected. Create a new project or select one from the dropdown.</p>
+    </div>
+    <script th:src="'/js/script.js?v=' + ${#dates.createNow().getTime()}"></script>
+    
