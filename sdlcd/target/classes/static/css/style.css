@@ -362,20 +362,80 @@ h1 {
     top: 20px;
     right: 20px;
     z-index: 101;
+    display: flex;
+    gap: 10px;
 }
 
+.switch-mode-btn {
     display: block;
-    text-align: center;
-    padding: 10px 15px;
-    background-color: var(--primary-color);
-    color: var(--white-color);
+    padding: 10px 20px;
+    border: 1px solid transparent;
     border-radius: 8px;
     text-decoration: none;
+    font-weight: bold;
+    font-size: 14px;
+    cursor: pointer;
     box-shadow: 0 4px 12px var(--shadow-color);
+    transition: all 0.3s ease;
 }
 
-.switch-mode-btn:hover {
-    background-color: var(--primary-hover-color);
+/* Style for User Mode button */
+.mode-switcher a.switch-mode-btn {
+    background-color: var(--green-color);
+    color: var(--white-color);
+}
+
+.mode-switcher a.switch-mode-btn:hover {
+    background-color: var(--white-color);
+    color: var(--green-color);
+    border-color: var(--green-color);
+}
+
+/* Style for Dev Mode button */
+#dev-mode-btn {
+    background-color: var(--blue-color);
+    color: var(--white-color);
+}
+
+#dev-mode-btn:hover {
+    background-color: var(--white-color);
+    color: var(--blue-color);
+    border-color: var(--blue-color);
+}
+
+/* --- Project Header and Tab Themes --- */
+
+/* Blue Theme */
+.project-container.theme-blue .project-header {
+    border-bottom-color: var(--blue-color);
+}
+
+.project-tabs li.active.theme-blue a {
+    background-color: var(--blue-color);
+    border-color: var(--blue-color);
+    color: var(--white-color);
+}
+
+/* Green Theme */
+.project-container.theme-green .project-header {
+    border-bottom-color: var(--green-color);
+}
+
+.project-tabs li.active.theme-green a {
+    background-color: var(--green-color);
+    border-color: var(--green-color);
+    color: var(--white-color);
+}
+
+/* Red Theme */
+.project-container.theme-red .project-header {
+    border-bottom-color: var(--red-color);
+}
+
+.project-tabs li.active.theme-red a {
+    background-color: var(--red-color);
+    border-color: var(--red-color);
+    color: var(--white-color);
 }
 
 /* Project Page Styles */

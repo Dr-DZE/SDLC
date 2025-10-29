@@ -267,4 +267,30 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.error('Error toggling todo:', error));
         });
     });
+
+    // --- Dev Mode Password Logic --- //
+    const devModeBtn = document.getElementById('dev-mode-btn');
+    const devPasswordModal = document.getElementById('dev-mode-password-modal');
+    const devPasswordSubmitBtn = document.getElementById('dev-password-submit-btn');
+    const devPasswordInput = document.getElementById('dev-password-input');
+
+    if (devModeBtn) {
+        devModeBtn.addEventListener('click', function(event) {
+            openModal(devPasswordModal);
+        });
+    }
+
+    if (devPasswordSubmitBtn) {
+        devPasswordSubmitBtn.addEventListener('click', function() {
+            const enteredPassword = devPasswordInput.value;
+            const correctPassword = 'admin'; // Hardcoded password
+
+            if (enteredPassword === correctPassword) {
+                window.location.href = '/new-page?mode=dev';
+            } else {
+                alert('Incorrect password!');
+                devPasswordInput.value = '';
+            }
+        });
+    }
 });

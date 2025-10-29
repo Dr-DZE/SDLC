@@ -13,13 +13,24 @@
     </div>
     <a href="/" class="switch-page-btn">Back</a>
     <div class="mode-switcher">
-        <a th:if="${mode == 'user'}" href="/new-page?mode=dev" class="switch-mode-btn">Dev Mode</a>
+        <button th:if="${mode == 'user'}" id="dev-mode-btn" class="switch-mode-btn">Dev Mode</button>
         <a th:if="${mode == 'dev'}" href="/new-page" class="switch-mode-btn">User Mode</a>
+    </div>
+
+    <!-- Dev Mode Password Modal -->
+    <div id="dev-mode-password-modal" class="modal-container">
+        <form class="todo-form">
+            <span class="close-button">&times;</span>
+            <h2>Enter Dev Mode Password</h2>
+            <input type="password" id="dev-password-input" placeholder="Password" autocomplete="off" />
+            <button type="button" id="dev-password-submit-btn" class="btn-blue">Enter</button>
+        </form>
     </div>
 
     <div class="project-tabs">
         <ul>
-            <li th:each="project : ${allProjects}" th:classappend="${selectedProject != null and selectedProject.id == project.id ? 'active' : ''}">
+            <li th:each="project : ${allProjects}" 
+                th:classappend="${selectedProject != null and selectedProject.id == project.id ? 'active theme-' + selectedProject.colorTheme : ''}">
                 <a th:href="@{/new-page(mode=${mode}, projectId=${project.id})}" th:text="${project.name}"></a>
             </li>
         </ul>
